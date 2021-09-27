@@ -1,15 +1,39 @@
 <template>
   <div>
-    <v-row justify="center" align="center" class="mt-2">
-        <h1>Gestion des modèles</h1>        
+    <v-row class="mt-2">
+
+      <v-col cols="3"></v-col>
+
+      <v-spacer></v-spacer>
+
+      <v-col cols="3">
+        <h1>Gestion des modèles</h1>
+      </v-col>
+
+      <v-spacer></v-spacer>      
+
+      <v-col cols="3">
+        <v-card flat
+        max-width="300px"        
+        >
+          <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+          ></v-text-field>          
+        </v-card>
+      </v-col>           
     </v-row>
+
     <model_form></model_form>
         <v-container fill-height fluid>
           <v-row
           class="ma-2"
           align="center"
           justify="center">
-            <div v-for="item in models" :key="item.name"
+            <div v-for="item in filteredItems" :key="item.name"
             width=20%
             >
             <Model_card :name= "item.name" :description = "item.description" :price = "item.price" :range = "item.range" :ingredients= "item.ingredients"/>
@@ -25,18 +49,18 @@ import Model_card from '@/components/model_card.vue'
 import model_form from '@/components/model_form.vue'
 
 export default {
-    components: { Model_card, model_form },
-    
+    components: { Model_card, model_form },    
 
     data: () => ({
+        search: "",
         drawer: false,
         group: null,
         displayIngredient: false,
         displayModel: false,
-        displayProcedure: false,
+        displayProcedure: false,        
         models: [
         {
-            name: 'Modèle A',
+            name: 'Pink',
             description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
             price: 5,
             range: "Gamme A",
@@ -47,7 +71,7 @@ export default {
             ] 
         },
         {
-            name: 'Modèle B',
+            name: 'Blue',
             description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
             price: 6,
             range: "Gamme B",
@@ -58,7 +82,7 @@ export default {
             ]      
         },
         {
-            name: 'Modèle C',
+            name: 'Green',
             description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
             price: 7,
             range: "Gamme C",
@@ -70,7 +94,7 @@ export default {
             ]      
         },
         {
-            name: 'Modèle A',
+            name: 'Purple',
             description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
             price: 5,
             range: "Gamme A",
@@ -81,7 +105,7 @@ export default {
             ] 
         },
         {
-            name: 'Modèle B',
+            name: 'Yellow',
             description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
             price: 6,
             range: "Gamme B",
@@ -92,7 +116,7 @@ export default {
             ]      
         },
         {
-            name: 'Modèle C',
+            name: 'Black',
             description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
             price: 7,
             range: "Gamme C",
@@ -104,7 +128,14 @@ export default {
             ]      
         },
         ]
-    })
+    }),
+  computed: {
+    filteredItems() {
+      return this.models.filter(item => {
+         return item.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1
+      })
+    }
+  }
 }
 </script>
 
