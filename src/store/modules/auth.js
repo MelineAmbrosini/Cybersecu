@@ -33,7 +33,7 @@ const authModule = {
   actions: {
     login: async ({ commit }, { credentials }) => {
       const response = await authService.login(credentials);
-      const token = response.data.token;
+      const token = response.data;
       const data = {
         jwtToken: token,
         infos: jwt.decode(token),
