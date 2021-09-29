@@ -15,40 +15,45 @@
         </v-btn>
       </template>
 
-      <v-card>
-        <v-card-title>
-          <span class="text-h5">Ingrédient</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-col cols="12">
-              <v-text-field
-                label="Nom"
-                v-model="newName"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-textarea
-                v-model="newDescription"
-                outlined
-                name="Description"
-                label="Description"
-                hint="Description de l'ingrédient"
-              ></v-textarea>
-            </v-col>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false">
-            Fermer
-          </v-btn>
-          <v-btn color="primary" text @click="dialog = false">
-            Valider
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-card v-model="valid">
+          <v-card-title>
+            <span class="text-h5">Ingrédient</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-col cols="12">
+                <v-text-field
+                  label="Nom*"
+                  required
+                  :rules="nameRules"
+                  v-model="newName"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  outlined
+                  name="Description"
+                  label="Description"
+                  hint="Description de l'ingrédient"
+                  v-model="newDescription"
+                ></v-textarea>
+              </v-col>
+            </v-container>
+            <small>*champs requis</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialog = false">
+              Fermer
+            </v-btn>
+
+            <v-btn :disabled="!valid" color="primary" text @click="validate">
+              Valider
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
     </v-dialog>
   </div>
 </template>
@@ -58,8 +63,23 @@ export default {
   props: ["id", "name", "description"],
   data: () => ({
     dialog: false,
-    newName: this.name,
-    newDescription: this.description,
+    newName: "",
+    newDescription: "",
   }),
+  created() {
+    this.newName = this.name;
+    this.newDescription = this.description;
+  },
+  methods: {
+    validate() {
+      this.$store.dispatch("updateIngredient", {
+        id: this.id,
+        name: this.newName,
+        description: this.newDescription,
+      });
+
+      this.dialog = false;
+    },
+  },
 };
 </script>

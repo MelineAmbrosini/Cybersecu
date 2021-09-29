@@ -22,7 +22,8 @@ const authModule = {
         (ing) => ing.id === ingredient.id
       );
       if (index !== -1) {
-        state.ingredients[index] = ingredient;
+        state.ingredients[index].name = ingredient.name;
+        state.ingredients[index].description = ingredient.description;
       }
     },
     SET_INGREDIENTS: (state, data) => {
@@ -38,8 +39,8 @@ const authModule = {
     },
   },
   actions: {
-    updateIngredients: async ({ commit }, ingredient) => {
-      await ingredientService.update(ingredient);
+    updateIngredient: async ({ commit }, ingredient) => {
+      await ingredientService.updateIngredient(ingredient);
       commit("SET_INGREDIENT", ingredient);
     },
     createIngredient: async ({ commit }, ingredient) => {

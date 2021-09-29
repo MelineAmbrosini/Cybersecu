@@ -65,10 +65,6 @@ export default {
       this.$refs.form.validate();
 
       if (this.valid) {
-        console.log({
-          name: this.name,
-          description: this.description,
-        });
         this.$store.dispatch("createIngredient", {
           name: this.name,
           description: this.description,
