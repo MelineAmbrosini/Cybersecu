@@ -49,7 +49,14 @@ export default {
 
   methods: {
     validate() {
-      this.$store.dispatch("login", { credentials: this.model });
+      this.$store
+        .dispatch("login", { credentials: this.model })
+        .then(() => {
+          return this.$router.push("/");
+        })
+        .catch(() => {
+          alert("Identifiants invalides");
+        });
     },
   },
 };
