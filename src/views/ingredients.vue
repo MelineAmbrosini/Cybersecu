@@ -29,7 +29,11 @@
     <v-container fill-height fluid>
       <v-row class="ma-2" align="center" justify="center">
         <div v-for="item in filteredItems" :key="item.name" width="20%">
-          <ingredient_card :name="item.name" :description="item.description" />
+          <ingredient_card
+            :id="item.id"
+            :name="item.name"
+            :description="item.description"
+          />
         </div>
       </v-row>
     </v-container>
