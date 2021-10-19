@@ -17,9 +17,13 @@
 
       <v-text-field
         v-model="model.password"
+        :append-icon="value ? 'mdi-eye' : 'mdi-eye-off'"
         :rules="passwordRules"
+        :type="value ? 'text' : 'password'"
         label="Mot de passe"
+        @click:append="value = !value"
         required
+        
       ></v-text-field>
       <v-card-actions class="justify-center">
         <v-btn
@@ -45,6 +49,7 @@ export default {
     valid: true,
     usernameRules: [(v) => !!v || "Identifiant requis"],
     passwordRules: [(v) => !!v || "Mot de passe requis"],
+    value: false
   }),
 
   methods: {
