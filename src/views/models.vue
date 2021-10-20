@@ -33,7 +33,7 @@
           class="ma-2"
           align="center"
           justify="center">
-            <div v-for="item in filteredItems" :key="item.name"
+            <div v-for="item in filteredItems" :key="item.id"
             width=20%
             >
             <Model_card 
@@ -76,7 +76,7 @@ export default {
     },
     filteredItems() {
       return this.models.filter(item => {
-         return item.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1
+         return item.name.toLowerCase().match(this.search)
       })
     }  
   }

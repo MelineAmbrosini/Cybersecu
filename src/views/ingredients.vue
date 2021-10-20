@@ -28,7 +28,7 @@
 
     <v-container fill-height fluid>
       <v-row class="ma-2" align="center" justify="center">
-        <div v-for="item in filteredItems" :key="item.name" width="20%">
+        <div v-for="item in filteredItems" :key="item.id" width="20%">
           <ingredient_card
             :id="item.id"
             :name="item.name"
@@ -50,6 +50,9 @@ export default {
   data: () => ({
     search: "",
   }),
+  methods: {
+
+  },
   created() {
     this.$store.dispatch("fetchIngredients");
   },
@@ -59,7 +62,7 @@ export default {
     },
     filteredItems() {
       return this.ingredients.filter((item) => {
-        return item.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+        return item.name.toLowerCase().match(this.search)
       });
     },
   },
