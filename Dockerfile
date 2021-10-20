@@ -10,4 +10,4 @@ RUN mkdir /app
 COPY --from=build-stage /app/dist /app
 COPY ./nginx /etc/nginx
 
-EXPOSE 80
+EXPOSE 443
