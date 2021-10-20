@@ -69,6 +69,8 @@ export default {
           name: this.name,
           description: this.description,
         });
+
+        this.dialog = false;
       }
     },
   },

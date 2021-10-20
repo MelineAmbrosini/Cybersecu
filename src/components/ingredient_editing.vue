@@ -25,8 +25,7 @@
               <v-col cols="12">
                 <v-text-field
                   label="Nom*"
-                  required
-                  :rules="nameRules"
+                  required                  
                   v-model="newName"
                 ></v-text-field>
               </v-col>

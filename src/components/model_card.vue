@@ -26,7 +26,7 @@
                     <h4 style="text-align:center">Ingrédients</h4>
                     <v-card-text>
                         <ul style="list-style-type: '-';">
-                            <li v-for="item in ingredients" :key="item.name">
+                            <li v-for="item in components" :key="item.name">
                                 {{item.name}} {{item.weight}}g
                             </li>
                             </ul>                       
@@ -37,7 +37,12 @@
             <v-row justify="center">
             <v-card-actions>
                 
-                    <model_editing :name= "name" :description= "description" :price= "price" :range= "range" :ingredients= "ingredients" />                           
+                    <model_editing 
+                    :name= "name" 
+                    :description= "description" 
+                    :price= "price" 
+                    :range= "range" 
+                    :components= "components" />                           
 
                     <v-btn
                     class="mx-3"
@@ -45,6 +50,7 @@
                     dark
                     x-small
                     color="primary"
+                    @click="deleteModel(id)"
                     ><v-icon>mdi-delete</v-icon>
                     </v-btn>
                 
@@ -57,8 +63,14 @@
 <script>
 import model_editing from "@/components/model_editing.vue";
 export default {
-    props: ['name', 'description', 'price', 'weight', 'ingredients', 'range'],
-    components: { model_editing }
+    props: ['name', 'description', 'price', 'range', 'models', 'components','id'],
+    components: { model_editing },
+    methods: {
+    deleteModel(id) {
+      this.$store.dispatch("deleteModel", id);
+    },
+  },
+
     
 }
 </script>

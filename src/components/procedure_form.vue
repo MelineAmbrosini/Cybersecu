@@ -54,18 +54,14 @@
                   :rules="modelRules"
                 ></v-text-field>
               </v-col>
-            
-              <div v-for="item in prod_stage" :key="item.id">
-                  
-                  <v-text-field
+
+              <v-col cols="12">
+                <v-text-area
                   label="Etape*"                  
                   required
-                  :rules="stageRules"
-                  
-                ></v-text-field>
-              </div>
-
-              <v-btn color="primary" @click="addRow">Ajouter une étape</v-btn>
+                  :rules="stageRules"                  
+                ></v-text-area>
+              </v-col>
 
               <v-col cols="12">
                 <v-textarea
@@ -121,21 +117,28 @@
       ],
       descriptionRules: [
         v => !!v || 'Description requise'
-      ],      
-      id: 1,
-      prod_stage: [{no: "", stage: ""}]
+      ],
+      name: "",
+      description: "",
+      model: "",
+      steps: "",
+      val_description: "",
     }),
     methods: {
-        validate () {
-        this.$refs.form.validate()
-        },
-        addRow() {
-            this.id += 1;
-            this.prod_stage.push({
-                no: "",
-                stage: ""
-            });
+      validate() {
+        this.$refs.form.validate();
+
+        if (this.valid) {
+          this.$store.dispatch("createProcedure", {
+            name: this.name,
+            description: this.description,
+            model: this.model,
+            steps: this.steps,
+            val_description: this.val_description
+          });
+          this.dialog = false;
         }
-    }
+      },
+    },
   }
 </script>

@@ -66,12 +66,14 @@
             
               <div v-for="item in ingredients" :key="item.id">
                   
-                  <v-text-field
+                  <v-select
                   label="Ingrédient*"                  
                   required
                   :rules="ingredientRules"
-                  
-                ></v-text-field>
+                  :items="list_ingredients"
+                  item-text="name"                 
+                ></v-select>
+
                 <v-text-field
                   label="Poids*"                  
                   required      
@@ -131,15 +133,26 @@
         v => !!v || 'Poids requis',
         v => !isNaN(parseInt(v)) || 'Saisissez un nombre'
       ],
-      id: 1,
+      idRow: 1,
       ingredients: [{name: "", weight: ""}]
     }),
+
     methods: {
-        validate () {
-        this.$refs.form.validate()
-        },
+      validate() {
+        this.$refs.form.validate();
+
+        if (this.valid) {
+          this.$store.dispatch("createModel", {
+            name: this.name,
+            description: this.description,
+            price: this.price,
+            range: this.range,
+          });
+          this.dialog = false;
+        }
+      },
         addRow() {
-            this.id += 1;
+            this.idRow += 1;
             this.ingredients.push({
                 name: "",
                 weight: ""

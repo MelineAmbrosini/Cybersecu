@@ -18,9 +18,7 @@
                         <h4>Etapes de fabrication</h4>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
-                        <v-list v-for="item in prod_stage" :key="item.no" class="text-center">
-                        {{item.no}} {{item.stage}}
-                        </v-list>                    
+                        {{ steps }}                                          
                     </v-expansion-panel-content>
                 </v-expansion-panel>
 
@@ -37,7 +35,12 @@
             
             <v-row justify="center">
                 <v-card-actions>
-                    <procedure_editing :name= "name" :description= "description" :model= "model" :val_description= "val_description" :prod_stage= "prod_stage" />                                    
+                    <procedure_editing 
+                    :name= "name" 
+                    :description= "description" 
+                    :model= "model" 
+                    :val_description= "val_description" 
+                    :prod_stage= "steps" />                                    
 
                     <v-btn
                     class="mx-3 mt-3"
@@ -45,6 +48,7 @@
                     dark
                     x-small
                     color="primary"
+                    @click="deleteProcedure(id)"
                     ><v-icon>mdi-delete</v-icon>
                     </v-btn>                    
                 </v-card-actions>
@@ -59,7 +63,11 @@ import procedure_editing from "@/components/procedure_editing.vue";
 
 export default {
     components: { procedure_editing },
-    props: ['name', 'description', 'model', 'prod_stage', 'val_description']
-    
+    props: ['name', 'description', 'model', 'steps', 'val_description', 'procedures', 'id'],
+    methods: {
+        deleteProcedure(id) {
+            this.$store.dispatch("deleteProcedure", id);
+        },
+    },    
 }
 </script>

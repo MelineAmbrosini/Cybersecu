@@ -69,7 +69,7 @@
               </v-col> 
 
             
-              <div v-for="item in ingredients" :key="item.id">
+              <div v-for="item in components" :key="item.id">
                   
                   <v-text-field
                   label="Ingrédient" 
@@ -102,7 +102,7 @@
             :disabled="!valid"            
             color="primary"
             text
-            @click="validate"
+            @click="validate()"
           >
             Valider
           </v-btn>
@@ -115,7 +115,7 @@
 
 <script>
   export default {
-    props: ['name', 'description', 'price', 'range', 'ingredients'],   
+    props: ['id','name', 'description', 'price', 'range', 'components'],   
     data: () => ({
       dialog: false,
       valid: true,
@@ -136,20 +136,36 @@
         v => !!v || 'Poids requis',
         v => !isNaN(parseInt(v)) || 'Saisissez un nombre'
       ],
-      id: 1,
-      ingredients: [{name: "", weight: ""}]
+      id: 1,      
+      newName: "",
+      newDescription: "",
+      newPrice: "",
+      newRange: ""      
     }),
+    created() {
+      this.newName = this.name;
+      this.newDescription = this.description;
+      this.newPrice = this.price
+      this.newRange = this.range      
+    },
     methods: {
-        validate () {
-        this.$refs.form.validate()
-        },
-        addRow() {
-            this.id += 1;
-            this.ingredients.push({
-                name: "",
-                weight: ""
-            });
-        }
+      validate() {
+        this.$store.dispatch("updateModel", {
+          id: this.id,
+          name: this.newName,
+          description: this.newDescription,
+          price: this.newPrice,
+          range: this.newRange,
+        });
+        this.dialog = false;
+      },
+      addRow() {
+        this.id += 1;
+        this.ingredients.push({
+        name: "",
+        weight: ""
+      });
     }
-  }
+  },
+}
 </script>

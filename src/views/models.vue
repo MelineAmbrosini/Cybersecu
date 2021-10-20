@@ -36,8 +36,12 @@
             <div v-for="item in filteredItems" :key="item.name"
             width=20%
             >
-            <Model_card :name= "item.name" :description = "item.description" :price = "item.price" :range = "item.range" :ingredients= "item.ingredients"/>
-          
+            <Model_card 
+            :name= "item.name" 
+            :description = "item.description" 
+            :price = "item.price" 
+            :range = "item.range" 
+            />          
             </div>
           </v-row>          
         </v-container>  
@@ -49,8 +53,7 @@ import Model_card from '@/components/model_card.vue'
 import model_form from '@/components/model_form.vue'
 
 export default {
-    components: { Model_card, model_form },    
-
+    components: { Model_card, model_form },
     data: () => ({
         search: "",
         drawer: false,
@@ -58,83 +61,24 @@ export default {
         displayIngredient: false,
         displayModel: false,
         displayProcedure: false,        
-        models: [
-        {
-            name: 'Pink',
-            description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
-            price: 5,
-            range: "Gamme A",
-            ingredients: [
-            { name: 'e', weight: 1},
-            { name: 'j', weight: 4},
-            { name: 's', weight: 8}
-            ] 
-        },
-        {
-            name: 'Blue',
-            description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
-            price: 6,
-            range: "Gamme B",
-            ingredients: [
-            { name: 'a', weight: 5},
-            { name: 'b', weight: 7},
-            { name: 'd', weight: 9}
-            ]      
-        },
-        {
-            name: 'Green',
-            description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
-            price: 7,
-            range: "Gamme C",
-            ingredients: [
-            { name: 'r', weight: 5},
-            { name: 'd', weight: 7},
-            { name: 'y', weight: 8},
-            { name: 'a', weight: 6}
-            ]      
-        },
-        {
-            name: 'Purple',
-            description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
-            price: 5,
-            range: "Gamme A",
-            ingredients: [
-            { name: 'e', weight: 1},
-            { name: 'j', weight: 4},
-            { name: 's', weight: 8}
-            ] 
-        },
-        {
-            name: 'Yellow',
-            description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
-            price: 6,
-            range: "Gamme B",
-            ingredients: [
-            { name: 'a', weight: 5},
-            { name: 'b', weight: 7},
-            { name: 'd', weight: 9}
-            ]      
-        },
-        {
-            name: 'Black',
-            description: 'Calycadnus distentis flumen quam dives distentis qui adnexa montis lateri palmite Calycadnus qui porrigitur porrigitur.',
-            price: 7,
-            range: "Gamme C",
-            ingredients: [
-            { name: 'r', weight: 5},
-            { name: 'd', weight: 7},
-            { name: 'y', weight: 8},
-            { name: 'a', weight: 6}
-            ]      
-        },
-        ]
+
     }),
-  computed: {
+    created() {
+        this.$store.dispatch("fetchModels");
+        this.$store.dispatch("fetchComponents");
+    },
+    computed: {
+    models() {
+        return this.$store.getters.getModels;
+    },  
+    components() {
+        return this.$store.getters.getComponents;
+    },
     filteredItems() {
       return this.models.filter(item => {
          return item.name.toLowerCase().indexOf(this.search.toLowerCase()) != -1
       })
-    }
+    }  
   }
 }
 </script>
@@ -145,4 +89,3 @@ h1 {
     text-align: center;
 }
 </style>
-

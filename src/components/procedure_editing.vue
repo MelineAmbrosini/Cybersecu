@@ -59,18 +59,14 @@
                 ></v-text-field>
               </v-col>
             
-              <div v-for="item in prod_stage" :key="item.id">
-                  
+              <v-col cols="12">                  
                   <v-text-field
                   label="Etape*"                  
                   required
                   :rules="stageRules"
-                  v-model="item.stage"
-                  
+                  v-model="steps"                  
                 ></v-text-field>
-              </div>
-
-              <v-btn color="primary" @click="addRow">Ajouter une étape</v-btn>
+              </v-col>         
 
               <v-col cols="12">
                 <v-textarea
@@ -100,7 +96,7 @@
             :disabled="!valid"            
             color="primary"
             text
-            @click="validate"
+            @click="validate()"
           >
             Valider
           </v-btn>
@@ -113,7 +109,7 @@
 
 <script>
   export default {
-    props: ['name', 'description', 'model', 'prod_stage', 'val_description'],      
+    props: ['id','name', 'description', 'model', 'steps', 'val_description'],
     data: () => ({
       dialog: false,
       valid: true,
@@ -128,21 +124,33 @@
       ],
       descriptionRules: [
         v => !!v || 'Description requise'
-      ],      
-      id: 1,
-      prod_stage: [{no: "", stage: ""}]
+      ],
+      newName: "",
+      newDescription: "",
+      newModel: "",
+      newSteps: "",
+      newVal_Description: "",
     }),
+    created() {
+      this.newName = this.name;
+      this.newDescription = this.description;
+      this.newModel = this.model
+      this.newSteps = this.steps
+      this.newVal_Description = this.val_description
+    },
     methods: {
-        validate () {
-        this.$refs.form.validate()
-        },
-        addRow() {
-            this.id += 1;
-            this.prod_stage.push({
-                no: "",
-                stage: ""
-            });
-        }
-    }
+      validate() {
+        this.$store.dispatch("updateProcedure", {
+          id: this.id,
+          name: this.newName,
+          description: this.newDescription,
+          model: this.newModel,
+          steps: this.newSteps,
+          val_description: this.newVal_Description
+        });
+
+        this.dialog = false;
+      },
+    },
   }
 </script>
